@@ -23,12 +23,12 @@ jobs:
       # Step 3: Install dependencies
       - name: Install dependencies
         run: |
-          npm install  # or `yarn install` if you are using yarn
+          `yarn install` if you are using yarn
 
       # Step 4: Build the project
       - name: Build the project
         run: |
-          npm run build  # or `yarn build` if you're using yarn
+          `yarn build` if you're using yarn
 
       # Step 5: Deploy the build to your server (via SCP or rsync)
       - name: Deploy to server (using SCP)
