@@ -1,40 +1,54 @@
-name: Deploy Frontend (ReactJS/NextJS)
+name: Deploy (push to main)
 
 on:
   push:
     branches:
-      - main  # This will trigger the pipeline on pushes to the 'main' branch
+      - main  # Ensures that the workflow is triggered when there's a push to the 'main' branch
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest  # The environment for the job
+  deploy:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-
-      - name: Install dependencies
-        run: |
-          npm install  # or `yarn install` if you are using yarn
-
-      # Step 4: Build the project
-      - name: Build the project
-        run: |
-          npm run build  # or `yarn build` if you're using yarn
-
-      # Step 5: Deploy the build to your server (via SCP or rsync)
-      - name: Deploy to server (using SCP)
+      - name: Deploy to VPS via SSH (run deploy on VPS)
         env:
           DEPLOY_HOST: ${{ secrets.SERVER_HOST }}
           DEPLOY_USER: ${{ secrets.SERVER_USER }}
+          DEPLOY_PATH: ${{ secrets.SERVER_PATH }}
           DEPLOY_SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
         run: |
-          # Set up SSH for deployment
+          set -e
+
+          # Setup SSH keys for deployment
           mkdir -p ~/.ssh
           echo "$DEPLOY_SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan $DEPLOY_HOST >> ~/.ssh/known_hosts
 
-          # Copy the build files to your server (adjust path to server directory)
-          scp -r ./out/* $DEPLOY_USER@$DEPLOY_HOST:/path/to/your/frontend/directory
+          # Connect to the VPS and run the deployment script
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${DEPLOY_USER}@${DEPLOY_HOST} << 'EOF'
+            set -e
+
+            # Navigate to the frontend directory (update with your correct path)
+            cd ${DEPLOY_PATH}
+
+            echo "=== Pull latest changes from Git ==="
+            git fetch origin
+            git checkout main
+            git reset --hard origin/main
+
+            echo "=== Clean frontend deps ==="
+            rm -rf node_modules || true
+
+            echo "=== Install frontend dependencies ==="
+            yarn install  # Install frontend dependencies using Yarn
+
+            echo "=== Build frontend ==="
+            yarn build  # Build the project
+
+            echo "=== Deploy frontend ==="
+            # If you're using SSR (Server-Side Rendering), deploy .next
+            # Otherwise, deploy the static export (use `out` if using `next export`)
+            pm2 restart your-next-app || true
+
+            echo "=== Deployment finished ==="
+          EOF
