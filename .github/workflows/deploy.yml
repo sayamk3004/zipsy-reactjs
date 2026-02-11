@@ -1,4 +1,4 @@
-name: Deploy Frontend (push to main)
+name: Deploy React-NextJS Frontend (push to main)
 
 on:
   push:
