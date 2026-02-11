@@ -59,6 +59,7 @@ jobs:
             fi
 
             echo "=== Update repo ==="
+            git pull origin main
             git fetch origin
             git checkout "\$BRANCH"
             git reset --hard "origin/\$BRANCH"
