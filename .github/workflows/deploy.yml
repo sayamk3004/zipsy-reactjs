@@ -2,15 +2,14 @@ name: Deploy React-NextJS Frontend (push to main)
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to VPS via SSH (git pull + yarn build on VPS)
+      - name: Deploy to VPS via SSH (reset + yarn build on VPS)
         env:
           DEPLOY_HOST: ${{ secrets.SERVER_HOST }}
           DEPLOY_USER: ${{ secrets.SERVER_USER }}
@@ -22,67 +21,71 @@ jobs:
           REPO_SSH="git@github.com:sayamk3004/zipsy-reactjs.git"
           BRANCH="main"
 
-          # Setup SSH key on GitHub runner
           mkdir -p ~/.ssh
           echo "$DEPLOY_SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
 
-          # Agent forwarding so VPS can use this key to access GitHub
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_rsa
 
-          ssh -A -o StrictHostKeyChecking=no ${DEPLOY_USER}@${DEPLOY_HOST} << EOF
+          ssh -A -o StrictHostKeyChecking=no ${DEPLOY_USER}@${DEPLOY_HOST} << 'EOF'
             set -e
+            bash -lc '
+              set -e
 
-            DEPLOY_PATH="${DEPLOY_PATH}"
-            REPO_SSH="${REPO_SSH}"
-            BRANCH="${BRANCH}"
+              DEPLOY_PATH="/var/www/vhosts/zipsy.co.uk/httpdocs"
+              REPO_SSH="git@github.com:sayamk3004/zipsy-reactjs.git"
+              BRANCH="main"
 
-            echo "=== Go to deploy path ==="
-            mkdir -p "\$DEPLOY_PATH"
-            cd "\$DEPLOY_PATH"
+              echo "=== Who/Where ==="
+              whoami
+              echo "HOME=$HOME"
+              echo "PATH=$PATH"
 
-            echo "=== Ensure GitHub host key on VPS ==="
-            mkdir -p ~/.ssh
-            ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2>/dev/null || true
+              echo "=== Go to deploy path ==="
+              mkdir -p "$DEPLOY_PATH"
+              cd "$DEPLOY_PATH"
 
-            if [ ! -d ".git" ]; then
-              echo "=== Not a git repo here; cloning ==="
-              # If folder is not empty, clone into a subfolder instead of failing
-              if [ -n "\$(ls -A 2>/dev/null)" ]; then
-                echo "Directory not empty. Cloning into ./app"
-                mkdir -p app
-                cd app
+              echo "=== Ensure GitHub host key on VPS ==="
+              mkdir -p ~/.ssh
+              ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2>/dev/null || true
+
+              if [ ! -d ".git" ]; then
+                echo "=== Not a git repo here; cloning ==="
+                # If folder is not empty, clone into a subfolder
+                if [ -n "$(ls -A 2>/dev/null)" ]; then
+                  echo "Directory not empty. Cloning into ./app"
+                  mkdir -p app
+                  cd app
+                fi
+                git clone "$REPO_SSH" .
               fi
-              git clone "\$REPO_SSH" .
-            fi
 
-            echo "=== Update repo ==="
-            git pull origin main
-            git fetch origin
-            git checkout "\$BRANCH"
-            git reset --hard "origin/\$BRANCH"
+              echo "=== Force repo to origin/main (no merges) ==="
+              git fetch origin
+              git checkout "$BRANCH"
+              git reset --hard "origin/$BRANCH"
+              git clean -fd
 
-            echo "=== Install deps (Yarn) ==="
-            if command -v yarn >/dev/null 2>&1; then
-              if [ -f yarn.lock ]; then
-                yarn install --frozen-lockfile
-              else
-                yarn install
+              echo "=== Force Node version for non-interactive SSH ==="
+              export NVM_DIR="$HOME/.nvm"
+              if [ -s "$NVM_DIR/nvm.sh" ]; then
+                . "$NVM_DIR/nvm.sh"
+                nvm use 20 || nvm install 20
               fi
-            else
-              echo "Yarn not found on server. Install it (recommended: enable corepack) and re-run."
-              exit 1
-            fi
+              echo "Node: $(which node)"
+              node -v
 
-            echo "=== Build ==="
-            yarn build
+              echo "=== Yarn ==="
+              yarn -v || npm i -g yarn
 
-            echo "=== Restart app (optional) ==="
-            # Uncomment ONE of these depending on how you run Next.js:
-            # pm2 restart zipsy-reactjs || pm2 restart all || true
-            # systemctl restart your-service-name || true
+              echo "=== Install deps ==="
+              yarn install --frozen-lockfile
 
-            echo "=== Deploy finished ==="
+              echo "=== Build (increase heap) ==="
+              NODE_OPTIONS="--max-old-space-size=4096" yarn build
+
+              echo "=== Deploy finished ==="
+            '
           EOF
