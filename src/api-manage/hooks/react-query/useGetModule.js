@@ -4,8 +4,14 @@ import { moduleList } from "../../ApiRoutes";
 import { onErrorResponse } from "../../api-error-response/ErrorResponses";
 
 const getModule = async () => {
-  const { data } = await MainApi.get(moduleList);
-  return data;
+  try {
+    const { data } = await MainApi.get(moduleList);
+    console.log('API Response:', data);
+    return data;
+  } catch (error) {
+    console.error('Error during API call:', error);
+    throw error;  // Re-throw to trigger the onError handler
+  }
 };
 
 export default function useGetModule() {
