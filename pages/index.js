@@ -73,6 +73,7 @@ export const getServerSideProps = async (context) => {
 		{
 			method: "GET",
 			headers: {
+				 Accept: "application/json",
 				"X-software-id": 33571750,
 				"X-server": "server",
 				"X-localization": language,
