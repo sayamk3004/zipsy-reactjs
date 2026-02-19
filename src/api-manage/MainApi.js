@@ -2,7 +2,6 @@ import axios from "axios";
 export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 const MainApi = axios.create({
   baseURL: baseUrl,
-  withCredentials: true,
 });
 MainApi.interceptors.request.use(function (config) {
   let zoneid = undefined;
