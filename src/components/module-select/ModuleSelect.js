@@ -6,6 +6,7 @@ import CustomImageContainer from "../CustomImageContainer";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { setFeaturedCategories, setRecommendedStores } from "redux/slices/storedData";
+import ForceSelectZipsyGo from "./ForceSelectZipsyGo";
 
 const Container = styled(Stack)(({ theme }) => ({
   position: "fixed",

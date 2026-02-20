@@ -24,7 +24,7 @@ import {
 import CustomImageContainer from "../../../CustomImageContainer";
 import CustomAlert from "../../../alert/CustomAlert";
 import CustomModal from "../../../modal";
-import { zoneWiseModule } from "../../../module-select/ModuleSelect"; 
+import { zoneWiseModule } from "../../../module-select/ModuleSelect";
 import CloseIcon from "@mui/icons-material/Close";
 import ErrorIcon from "@mui/icons-material/Error";
 import { setSelectedModule } from "redux/slices/utils";
@@ -37,6 +37,7 @@ import { getGuestId } from "helper-functions/getToken";
 import { getCurrentModuleType } from "helper-functions/getCurrentModuleType";
 import useDeleteAllCarts from "api-manage/hooks/react-query/useDeleteAllCarts";
 import toast from "react-hot-toast";
+import ForceSelectZipsyGo from "components/module-select/ForceSelectZipsyGo";
 
 export const CustomPaper = styled(Paper)(({ theme }) => ({
   //minWidth: "500px",
@@ -110,7 +111,7 @@ export const ModuleSelection = ({
   const { data, refetch, isRefetching, isFetched } = useGetModule();
   const theme = useTheme();
   const dispatch = useDispatch();
-  const {mutate} = useDeleteAllCarts();
+  const { mutate } = useDeleteAllCarts();
   const moduleType = getCurrentModuleType();
   const cartListSuccessHandler = (res) => {
     if (res) {
@@ -131,15 +132,15 @@ export const ModuleSelection = ({
       dispatch(setCartList(tempCartLists));
     }
     router.push("/home");
-      setOpenModal(false);
-      closeModal?.();
+    setOpenModal(false);
+    closeModal?.();
   };
 
   const {
     data: cartListData,
     refetch: cartListRefetch,
     isLoading,
-  } = useGetAllCartList(getGuestId(),cartListSuccessHandler);
+  } = useGetAllCartList(getGuestId(), cartListSuccessHandler);
 
   const bookingSuccess = (res) => {
     dispatch(setCartList(res));
@@ -172,16 +173,16 @@ export const ModuleSelection = ({
   const handleItemOnClick = (item) => {
     localStorage.setItem("module", JSON.stringify(item));
     dispatch(setSelectedModule(item));
-    if(cartList?.carts?.length > 0 && item?.module_type === "rental"){
+    if (cartList?.carts?.length > 0 && item?.module_type === "rental") {
       const pickupZoneIds = cartList?.carts[0]?.provider?.pickup_zone_id;
       const targetZoneIds = Array.isArray(zoneId) ? zoneId : JSON.parse(zoneId);
       const inZone = targetZoneIds.some(id => pickupZoneIds?.includes(id.toString()));
-      if(inZone) {
+      if (inZone) {
         toast.success(t("Location set successfully"));
         router.push("/home");
-            setOpenModal(false);
-            closeModal?.(item);
-      }else{
+        setOpenModal(false);
+        closeModal?.(item);
+      } else {
         mutate(null, {
           onSuccess: (res) => {
             dispatch(setCartList(res));
@@ -195,18 +196,18 @@ export const ModuleSelection = ({
           }
         })
       }
-    }else{
-    router.push("/home");
-    setOpenModal(false);
-    closeModal?.(item);
+    } else {
+      router.push("/home");
+      setOpenModal(false);
+      closeModal?.(item);
     }
-    
+
     // if (item?.module_type === "rental") {
     //  bookingRefetch();
     // } else {
     //    cartListRefetch();
     // }
-   
+
   };
   const handleSingleModule = (data) => {
     dispatch(setSelectedModule(data));
@@ -219,6 +220,7 @@ export const ModuleSelection = ({
       if (data?.length === 0) {
         return (
           <CustomModal openModal={openModal} handleClose={handleCloseModal}>
+            {data && <ForceSelectZipsyGo data={data} />}
             <CustomPaper sx={{ position: "relative" }}>
               <IconButton
                 onClick={() => handleCloseModal?.()}
@@ -240,7 +242,7 @@ export const ModuleSelection = ({
             </CustomPaper>
           </CustomModal>
         );
-      }  else {
+      } else {
         return (
           <CustomModal
             openModal={openModal}
@@ -286,7 +288,7 @@ export const ModuleSelection = ({
                                     display: "-webkit-box",
                                     WebkitLineClamp: "1",
                                     WebkitBoxOrient: "vertical",
-                                
+
                                   }}
                                 >
                                   {item?.module_name}
