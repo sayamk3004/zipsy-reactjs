@@ -90,6 +90,7 @@ const ModuleSelect = ({
 
   return (
     <Container p=".8rem" spacing={2}>
+      {data && <ForceSelectZipsyGo data={data} />}
       {data ? (
         zoneWiseModule?.(data)?.map((item, index) => {
           return (
