@@ -9,8 +9,9 @@ const ForceSelectZipsyGo = ({ data }) => {
   const selectedModule = useSelector((state) => state.utilsData.selectedModule);
 
   useEffect(() => {
-    const zipsyGoModule = data?.find(item => item.module_name === "Zipsy Go");
-    if (zipsyGoModule && (!selectedModule || selectedModule.module_name !== "Zipsy Go")) {
+    const zipsyGoModule = data?.find(item => item.type === "zipsy_go");
+    console.log(zipsyGoModule);
+    if (zipsyGoModule && (!selectedModule || selectedModule.type !== "zipsy_go")) {
       localStorage.setItem("module", JSON.stringify(zipsyGoModule));
       dispatch(setSelectedModule(zipsyGoModule));
       router.push("/home");
