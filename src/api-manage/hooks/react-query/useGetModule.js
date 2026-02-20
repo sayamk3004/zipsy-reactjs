@@ -16,7 +16,7 @@ const getModule = async () => {
 
 export default function useGetModule() {
   return useQuery("module-list", getModule, {
-    enabled: false,
+    enabled: true,
     onError: onErrorResponse,
   });
 }
