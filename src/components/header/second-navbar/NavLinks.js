@@ -40,10 +40,10 @@ const NavLinks = ({ zoneid, t, moduleType }) => {
                 setModal={setCategoryModal}
                 setRestaurantModal={setRestaurantModal}
               />
-              <NavStore
+              {/* <NavStore
                 openModal={openRestaurantModal}
                 setModal={setRestaurantModal}
-              />
+              /> */}
             </>
           ) : (
             <Link href="/help-and-support">

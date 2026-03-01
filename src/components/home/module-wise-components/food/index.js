@@ -132,11 +132,11 @@ const FoodModule = (props) => {
           <LoveItem />
         </CustomContainer>
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <CustomContainer>
           <NewArrivalStores />
         </CustomContainer>
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={12}>
         <CustomContainer>
@@ -148,11 +148,11 @@ const FoodModule = (props) => {
           <FeaturedCategoriesWithFilter title="Featured Categories" />
         </CustomContainer>
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <CustomContainer>
           <Stores />
         </CustomContainer>
-      </Grid>
+      </Grid> */}
       {orderDetailsModalOpen && !token && (
         <OrderDetailsModal orderDetailsModalOpen={orderDetailsModalOpen} />
       )}

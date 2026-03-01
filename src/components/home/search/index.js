@@ -146,10 +146,10 @@ const SearchResult = (props) => {
               : "Groceries",
       value: "items",
     },
-    {
-      name: getCurrentModuleType() === "food" ? "Restaurants" : "Stores",
-      value: "stores",
-    },
+    // {
+    //   name: getCurrentModuleType() === "food" ? "Restaurants" : "Stores",
+    //   value: "stores",
+    // },
   ];
 
   const selectedCategoriesIds = selectedCategories;
