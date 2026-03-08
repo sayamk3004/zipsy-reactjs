@@ -59,7 +59,10 @@ const LoyaltyPoints = (props) => {
 
 	const steps = [
 		{
-			label: "Convert your loyalty point to wallet money.",
+			label: "Earn 1 point for eaver £1 spent",
+		},
+		{
+			label: "Convert your loyalty points to money in your wallet spent",
 		},
 		{
 			label: "Minimum 200 points required to convert into currency",

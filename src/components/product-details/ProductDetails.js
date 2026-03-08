@@ -92,13 +92,13 @@ const ProductDetails = ({ productDetailsData, configData }) => {
 							productId={productDetailsData?.id}
 							storename={productDetailsData?.store_details?.name}
 						/>
-						<CustomStackFullWidth>
+						{/* <CustomStackFullWidth>
 							<FeaturedStores
 								slide="3"
 								title="Popular Store"
 								configData={configData}
 							/>
-						</CustomStackFullWidth>
+						</CustomStackFullWidth> */}
 					</CustomStackFullWidth>
 				</Grid>
 				<Grid item xs={12} md={4}>

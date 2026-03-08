@@ -149,7 +149,7 @@ const ManageSearch = ({
 
   const dynamicLabel = () => {
     if (getCurrentModuleType() === ModuleTypes.GROCERY) {
-      return `Search for grocery or store...`;
+      return `Search for items...`;
     }
     if (getCurrentModuleType() === ModuleTypes.PHARMACY) {
       return `Search for medicine or store...`;

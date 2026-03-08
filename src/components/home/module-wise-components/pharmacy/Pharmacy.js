@@ -69,11 +69,11 @@ const Pharmacy = ({ configData }) => {
           <FeaturedCategories configData={configData} />
         </CustomContainer>
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <CustomContainer>
           <RecommendedStore/>
         </CustomContainer>
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <CustomContainer>
           <PharmacyStaticBanners />
@@ -119,11 +119,11 @@ const Pharmacy = ({ configData }) => {
         </CustomContainer>
       </Grid>
       
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <CustomContainer>
           <FeaturedStores title="Featured Store" configData={configData} />
         </CustomContainer>
-      </Grid>
+      </Grid> */}
       
       <Grid item xs={12}>
         <CustomContainer>

@@ -71,11 +71,11 @@ const Grocery = (props) => {
           <FeaturedCategories configData={configData} />
         </CustomContainer>
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <CustomContainer>
           <RecommendedStore />
         </CustomContainer>
-      </Grid>
+      </Grid> */}
       {token && (<Grid item xs={12} mb={3}>
         {isSmallScreen ? (
           <VisitAgain
@@ -107,7 +107,7 @@ const Grocery = (props) => {
         <CustomContainer>
           <PopularItemsNearby
             title="Most Popular Items"
-            subTitle="We provide best quality & fresh grocery items near your location"
+            subTitle="These are the most popular items in your area near your location"
           />
         </CustomContainer>
       </Grid>
@@ -172,11 +172,11 @@ const Grocery = (props) => {
         </CustomContainer>
       </Grid>
 
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <CustomContainer>
           <Stores />
         </CustomContainer>
-      </Grid>
+      </Grid> */}
       {orderDetailsModalOpen && !token && (
         <OrderDetailsModal
           orderDetailsModalOpen={orderDetailsModalOpen}

@@ -34,19 +34,19 @@ const HowItWorks = ({configData}) => {
                 <HowItWorksPoints gap="18px">
                     <CustopmChip label="1" />
                     <Typography>
-                        {t("Invite and share your code to your friends & family members")}
+                        {t("Invite and share your code with family & friends")}
                     </Typography>
                 </HowItWorksPoints>
                 <HowItWorksPoints gap="18px">
                     <CustopmChip label="2" />
                     <Typography>
-                        {`${t("They create a account on")} ${configData?.business_name} ${t("using your code and place their first order")}`}
+                        {`${t("They create an account on")} ${configData?.business_name} ${t("using your code and place their first order")}`}
                     </Typography>
                 </HowItWorksPoints>
                 <HowItWorksPoints gap="18px">
                     <CustopmChip label="3" />
                     <Typography>
-                        {t("You made your earning when the order is complete")}
+                        {t("When they place their first order your £5 will be added to your wallet balance")}
                     </Typography>
                 </HowItWorksPoints>
             </Stack>

@@ -22,8 +22,8 @@ const SearchWithTitle = (props) => {
     switch (getCurrentModuleType()) {
       case ModuleTypes.GROCERY:
         return {
-          title: "Fresh Item that deserve to eat",
-          subTitle: "Get your groceries items delivered in less than an hour",
+          title: "Find Low Cost Groceries",
+          subTitle: "Get your groceries items delivered same day",
         };
       case ModuleTypes.PHARMACY:
         return {

@@ -39,7 +39,7 @@ export const arabic = {
 	"not now": "ليس الآن",
 	"Search for medicine or store...": "ابحث عن الطب أو المتجر ...",
 	"Suggested Searches": "عمليات البحث المقترحة",
-	"Search for grocery or store...": "ابحث عن البقالة أو المتجر ...",
+	"Search for items...": "ابحث عن البقالة أو المتجر ...",
 	"Extra on Every Add Fund": "إضافي في كل صندوق إضافة",
 	"fund to get max of": "صندوق للحصول على الحد الأقصى",
 	"If product is not available": "إذا لم يكن المنتج متاحًا",
@@ -320,12 +320,12 @@ export const arabic = {
 	"Common Conditions!": "الظروف المشتركة!",
 	"My Addresses": "عناويني",
 	previous: "سابق",
-	"Earn money to your wallet by completing the offer & challenged":
+	"Add money to your wallet":
 		"كسب المال لمحفظتك من خلال إكمال العرض والتحدي",
 	"Convert your loyalty points into wallet money":
 		"تحويل نقاط الولاء الخاصة بك إلى أموال محفظة",
-	"Send your wallet money while order": "أرسل أموال محفظتك أثناء الطلب",
-	"Admin also reward their top customers with wallet money":
+	"Use your wallet funds to pay for items": "أرسل أموال محفظتك أثناء الطلب",
+	"Admin can add money to your wallet":
 		"يقوم المسؤول أيضًا بمكافأة عملائهم الكبار بأموال محفظة",
 	ongoing: "جاري التنفيذ",
 	Reviews: "المراجعات",
@@ -357,7 +357,7 @@ export const arabic = {
 	"Features Catagories": "ميزات catagories",
 	Food: "طعام",
 	Campaigns: "الحملات",
-	"We provide best quality & fresh grocery items near your location":
+	"These are the most popular items in your area near your location":
 		"نحن نقدم أفضل جودة ومواد بقالة جديدة بالقرب من موقعك",
 	"Best Reviewed Foods": "أفضل الأطعمة المراجعة",
 	"Special Offer": "عرض خاص",
@@ -478,8 +478,9 @@ export const arabic = {
 	"Date & Time": "التاريخ والوقت",
 	"Minimum 200 points required to convert into currency":
 		"ما لا يقل عن 200 نقطة مطلوبة للتحويل إلى عملة",
-	"Convert your loyalty point to wallet money.":
+	"Convert your loyalty points to money in your wallet spent":
 		"تحويل نقطة الولاء الخاصة بك إلى محفظة المال.",
+	"Earn 1 point for eaver £1 spent": "Earn 1 point for eaver £1 spent",
 	"Referrer Transactions": "المعاملات المرجعية",
 	"Loyalty Points Transaction": "معاملة نقاط الولاء",
 	"Add Fund": "إضافة الصندوق",
@@ -1027,11 +1028,11 @@ export const arabic = {
 	"I will wait until it is restocked": "سأنتظر حتى يتم إعادة تخزينه",
 	"Please cancel the order": "يرجى إلغاء النظام",
 	"Call me ASAP": "الاتصال بي في اسرع وقت ممكن",
-	"Fresh Item that deserve to eat": "عنصر جديد يستحق تناول الطعام",
+	"Find Low Cost Groceries": "عنصر جديد يستحق تناول الطعام",
 	"Exclusive collection for everyone": "مجموعة حصرية للجميع",
 	"Quality Medicines & Health care at your Doorstep.":
 		"أدوية عالية الجودة والرعاية الصحية على عتبة داركم.",
-	"Get your groceries items delivered in less than an hour":
+	"Get your groceries items delivered same day":
 		"احصل على عناصر البقالة التي يتم تسليمها في أقل من ساعة",
 	"partially paid amount": "المبلغ المدفوع جزئيا",
 	"Notify me when it is back": "أبلغني عندما يعود",
@@ -1194,13 +1195,13 @@ export const arabic = {
 	"Your browser location track permission is off. Please turn on the location permission to detect current location":
 		"تم إيقاف إذن مسار موقع المتصفح الخاص بك. يرجى تشغيل إذن الموقع للكشف عن الموقع الحالي",
 	Save: "يحفظ",
-	"Invite and share your code to your friends & family members":
+	"Invite and share your code with family & friends":
 		"ادع ومشاركة الكود الخاص بك إلى أصدقائك وأفراد عائلتك",
-	"You made your earning when the order is complete":
+	"When they place their first order your £5 will be added to your wallet balance":
 		"لقد قمت بكسبك عند اكتمال الطلب",
-	"They create a account on 6amMart using your code and place their first order":
+	"They create an account on 6amMart using your code and place their first order":
 		"يقومون بإنشاء حساب على 6Ammart باستخدام الكود الخاص بك ويضعون طلبهم الأول",
-	"They create a account on": "يقومون بإنشاء حساب على",
+	"They create an account on": "يقومون بإنشاء حساب على",
 	"using your code and place their first order":
 		"باستخدام الكود الخاص بك ووضع طلبهم الأول",
 	"No Address Found": "لم يتم العثور على عنوان",

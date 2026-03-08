@@ -83,16 +83,16 @@ const Wallet = (props) => {
 
   const steps = [
     {
-      label: "Earn money to your wallet by completing the offer & challenged",
+      label: "Add money to your wallet",
     },
     {
       label: "Convert your loyalty points into wallet money",
     },
     {
-      label: "Admin also reward their top customers with wallet money",
+      label: "Admin can add money to your wallet",
     },
     {
-      label: "Send your wallet money while order",
+      label: "Use your wallet funds to pay for items",
     },
   ];
   return (

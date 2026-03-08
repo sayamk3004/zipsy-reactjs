@@ -857,7 +857,7 @@ export const spain = {
   "Exclusive collection for everyone": "مجموعة حصرية للجميع",
   "Quality Medicines & Health care at your Doorstep.":
     "جودة الأدوية والرعاية الصحية على عتبة داركم.",
-  "Get your groceries items delivered in less than an hour":
+  "Get your groceries items delivered same day":
     "احصل على سلع البقالة الخاصة بك في أقل من ساعة",
   "Fresh food that deserve to eat": "طعام طازج يستحق الأكل",
   "Explore Items": "استكشاف العناصر",
