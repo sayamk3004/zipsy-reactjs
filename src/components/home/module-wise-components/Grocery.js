@@ -161,11 +161,11 @@ const Grocery = (props) => {
           </CustomContainer>
         )}
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <CustomContainer>
           <NewArrivalStores />
         </CustomContainer>
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <CustomContainer>
           <PromotionalBanner bannerData={data} />

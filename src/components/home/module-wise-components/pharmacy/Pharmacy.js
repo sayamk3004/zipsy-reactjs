@@ -137,7 +137,7 @@ const Pharmacy = ({ configData }) => {
         </CustomContainer>
       </Grid>
    
-      <Grid
+      {/* <Grid
         item
         xs={12}
         sx={{
@@ -149,7 +149,7 @@ const Pharmacy = ({ configData }) => {
         <CustomContainer>
           <Stores />
         </CustomContainer>
-      </Grid>
+      </Grid> */}
        
       {orderDetailsModalOpen && !token && (
         <OrderDetailsModal orderDetailsModalOpen={orderDetailsModalOpen} />

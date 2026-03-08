@@ -260,7 +260,7 @@ const VisitAgain = ({ configData, visitedStores, isVisited, isLoading }) => {
             )}
           </>
         )}
-        <SliderCustom
+        {/* <SliderCustom
           nopadding="true"
           sx={{
             backgroundColor: getModuleWiseData?.()?.bgColor,
@@ -288,7 +288,7 @@ const VisitAgain = ({ configData, visitedStores, isVisited, isLoading }) => {
               })
             )}
           </Slider>
-        </SliderCustom>
+        </SliderCustom> */}
       </CustomStackFullWidth>
     </>
   );

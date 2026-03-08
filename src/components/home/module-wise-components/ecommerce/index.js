@@ -155,11 +155,11 @@ const Shop = ({ configData }) => {
           />
         </CustomContainer>
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <CustomContainer>
           <NewArrivals bannerData={data} />
         </CustomContainer>
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <CustomContainer>
           <RunningCampaigns />
@@ -185,11 +185,11 @@ const Shop = ({ configData }) => {
           <SinglePoster bannerData={data} />
         </CustomContainer>
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <CustomContainer>
           <Stores />
         </CustomContainer>
-      </Grid>
+      </Grid> */}
       {orderDetailsModalOpen && !token && (
         <OrderDetailsModal orderDetailsModalOpen={orderDetailsModalOpen} />
       )}
