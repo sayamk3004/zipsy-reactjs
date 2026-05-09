@@ -49,7 +49,7 @@ export const transaction_options = [
     value: "loyalty_point",
   },
   {
-    label: "Referrer Transactions",
+    label: "Referral bonus Transactions",
     value: "referrer",
   },
   {

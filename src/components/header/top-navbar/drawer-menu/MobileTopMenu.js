@@ -149,18 +149,6 @@ const MobileTopMenu = ({
                     pathName="/categories"
                     forcategory="true"
                   />
-                  <CollapsableMenu
-                    value={collapsableMenu.latest}
-                    setOpenDrawer={setOpenDrawer}
-                    toggleDrawers={toggleDrawer}
-                    pathName="/store/latest"
-                  />
-                  <CollapsableMenu
-                    value={collapsableMenu.popularStore}
-                    setOpenDrawer={setOpenDrawer}
-                    toggleDrawers={toggleDrawer}
-                    pathName="/store/popular"
-                  />
                 </>
               )}
               <ListItemButton

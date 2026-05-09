@@ -89,7 +89,7 @@ const Wallet = (props) => {
       label: "Convert your loyalty points into wallet money",
     },
     {
-      label: "Admin can add money to your wallet",
+      label: "Funds added by admin",
     },
     {
       label: "Use your wallet funds to pay for items",
