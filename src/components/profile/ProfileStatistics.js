@@ -1,7 +1,7 @@
 import { useTheme } from "@emotion/react";
 import { Paper, Skeleton, Typography, useMediaQuery } from "@mui/material";
 import { Stack, alpha } from "@mui/system";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import CustomImageContainer from "../CustomImageContainer";
@@ -19,18 +19,13 @@ const ProfileStatistics = ({
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const { configData } = useSelector((state) => state.configData);
   const { t } = useTranslation();
+  const router = useRouter();
   const handleRoute = (value) => {
-    if (title === "Days Since Joining") {
-    } else {
-      Router.push(
-        {
-          pathname: "/profile",
-          query: { page: value },
-        },
-        undefined,
-        { shallow: true }
-      );
-    }
+    if (title === "Days Since Joining") return;
+    if (router.query?.page === value) return;
+    router.push({ pathname: "/profile", query: { page: value } }, undefined, {
+      shallow: true,
+    });
   };
   return (
     <Paper
