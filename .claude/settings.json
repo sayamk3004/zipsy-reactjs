@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod +x /Applications/XAMPP/xamppfiles/htdocs/zipsy-reactjs/deploy.sh)"
+    ]
+  }
+}
