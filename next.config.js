@@ -5,8 +5,26 @@ const nextConfig = {
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? {
-      exclude: ['error', 'warn'], // Keep error and warn, remove log, info, debug, etc.
+      exclude: ['error', 'warn'],
     } : false,
+  },
+  async headers() {
+    return [
+      {
+        // HTML pages — never cache so browsers always get fresh chunk references
+        source: '/((?!_next/static|_next/image|favicon.ico).*)',
+        headers: [
+          { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
+        ],
+      },
+      {
+        // Static chunk files — cache forever (safe: filename hash changes each build)
+        source: '/_next/static/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+    ];
   },
   images: {
     remotePatterns: [
