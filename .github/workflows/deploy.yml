@@ -1,91 +1,75 @@
-name: Deploy React-NextJS Frontend (push to main)
+name: Deploy to Production
 
 on:
   push:
     branches: [main]
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to VPS via SSH (reset + yarn build on VPS)
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      # Build happens here on GitHub's runner (7GB RAM) — not on your server
+      - name: Build
+        run: yarn build
         env:
-          DEPLOY_HOST: ${{ secrets.SERVER_HOST }}
-          DEPLOY_USER: ${{ secrets.SERVER_USER }}
-          DEPLOY_SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          NEXT_PUBLIC_GOOGLE_MAP_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAP_KEY }}
+          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+          NEXT_CLIENT_HOST_URL: ${{ secrets.NEXT_CLIENT_HOST_URL }}
+          NEXT_PUBLIC_SITE_VERSION: ${{ secrets.NEXT_PUBLIC_SITE_VERSION }}
+
+      - name: Setup SSH
         run: |
-          set -e
-
-          DEPLOY_PATH="/var/www/vhosts/zipsy.co.uk/httpdocs"
-          REPO_SSH="git@github.com:sayamk3004/zipsy-reactjs.git"
-          BRANCH="main"
-
           mkdir -p ~/.ssh
-          echo "$DEPLOY_SSH_KEY" > ~/.ssh/id_rsa
+          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+          ssh-keyscan -H "${{ secrets.SERVER_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
 
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/id_rsa
-
-          ssh -A -o StrictHostKeyChecking=no ${DEPLOY_USER}@${DEPLOY_HOST} << 'EOF'
+      # Pull latest code + install deps while server is still running (no downtime)
+      - name: Update server code
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} bash -lc "'
             set -e
-            bash -lc '
-              set -e
+            export NVM_DIR=\"\$HOME/.nvm\"
+            [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"
+            cd /var/www/vhosts/zipsy.co.uk/httpdocs
+            git pull origin main
+            yarn install --frozen-lockfile
+          '"
 
-              DEPLOY_PATH="/var/www/vhosts/zipsy.co.uk/httpdocs"
-              REPO_SSH="git@github.com:sayamk3004/zipsy-reactjs.git"
-              BRANCH="main"
+      # Transfer the built .next folder to a staging location (server still running)
+      - name: Transfer build artifacts
+        run: |
+          rsync -az --delete \
+            -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa" \
+            .next/ \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/var/www/vhosts/zipsy.co.uk/httpdocs/.next_new/
 
-              echo "=== Who/Where ==="
-              whoami
-              echo "HOME=$HOME"
-              echo "PATH=$PATH"
-
-              echo "=== Go to deploy path ==="
-              mkdir -p "$DEPLOY_PATH"
-              cd "$DEPLOY_PATH"
-
-              echo "=== Ensure GitHub host key on VPS ==="
-              mkdir -p ~/.ssh
-              ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2>/dev/null || true
-
-              if [ ! -d ".git" ]; then
-                echo "=== Not a git repo here; cloning ==="
-                # If folder is not empty, clone into a subfolder
-                if [ -n "$(ls -A 2>/dev/null)" ]; then
-                  echo "Directory not empty. Cloning into ./app"
-                  mkdir -p app
-                  cd app
-                fi
-                git clone "$REPO_SSH" .
-              fi
-
-              echo "=== Force repo to origin/main (no merges) ==="
-              git fetch origin
-              git checkout "$BRANCH"
-              git reset --hard "origin/$BRANCH"
-              git clean -fd
-
-              echo "=== Force Node version for non-interactive SSH ==="
-              export NVM_DIR="$HOME/.nvm"
-              if [ -s "$NVM_DIR/nvm.sh" ]; then
-                . "$NVM_DIR/nvm.sh"
-                nvm use 20 || nvm install 20
-              fi
-              echo "Node: $(which node)"
-              node -v
-
-              echo "=== Yarn ==="
-              yarn -v || npm i -g yarn
-
-              echo "=== Install deps ==="
-              yarn install --frozen-lockfile
-
-              echo "=== Build (increase heap) ==="
-              NODE_OPTIONS="--max-old-space-size=4096" yarn build
-
-              echo "=== Deploy finished ==="
-            '
-          EOF
+      # Only this step causes downtime (~5 seconds)
+      - name: Swap build and restart
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} bash -lc "'
+            set -e
+            export NVM_DIR=\"\$HOME/.nvm\"
+            [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"
+            cd /var/www/vhosts/zipsy.co.uk/httpdocs
+            pm2 stop \"6ammart-web-next-js-dev\" || true
+            rm -rf .next_old
+            mv .next .next_old 2>/dev/null || true
+            mv .next_new .next
+            pm2 start \"6ammart-web-next-js-dev\" || pm2 start server.js --name \"6ammart-web-next-js-dev\"
+            pm2 save
+            rm -rf .next_old
+          '"
