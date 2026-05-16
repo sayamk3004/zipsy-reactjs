@@ -21,21 +21,25 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      # Build happens here on GitHub's runner (7GB RAM) — not on your server
-      - name: Build
-        run: yarn build
-        env:
-          NEXT_PUBLIC_GOOGLE_MAP_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAP_KEY }}
-          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
-          NEXT_CLIENT_HOST_URL: ${{ secrets.NEXT_CLIENT_HOST_URL }}
-          NEXT_PUBLIC_SITE_VERSION: ${{ secrets.NEXT_PUBLIC_SITE_VERSION }}
-
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H "${{ secrets.SERVER_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      # Pull .env.production from the server so the CI build bakes in the same
+      # NEXT_PUBLIC_* values as a build run directly on the server would.
+      - name: Fetch .env.production from server
+        run: |
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/var/www/vhosts/zipsy.co.uk/httpdocs/.env.production \
+            .env.production
+          test -s .env.production || { echo "ERROR: .env.production is empty or missing" >&2; exit 1; }
+
+      # Build happens here on GitHub's runner (7GB RAM) — not on your server
+      - name: Build
+        run: yarn build
 
       # Pull latest code + install deps while server is still running (no downtime)
       - name: Update server code
