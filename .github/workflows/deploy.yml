@@ -65,10 +65,16 @@ jobs:
             export NVM_DIR=\"\$HOME/.nvm\"
             [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"
             cd /var/www/vhosts/zipsy.co.uk/httpdocs
+            if [ ! -d .next_new ] || [ ! -f .next_new/BUILD_ID ]; then
+              echo \"ERROR: .next_new is missing or incomplete — aborting swap\" >&2
+              exit 1
+            fi
             pm2 stop \"6ammart-web-next-js-dev\" || true
             rm -rf .next_old
-            mv .next .next_old 2>/dev/null || true
+            mv .next .next_old || true
+            rm -rf .next
             mv .next_new .next
+            mkdir -p tmp && touch tmp/restart.txt
             pm2 start \"6ammart-web-next-js-dev\" || pm2 start server.js --name \"6ammart-web-next-js-dev\"
             pm2 save
             rm -rf .next_old
