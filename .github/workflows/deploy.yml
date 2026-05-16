@@ -5,22 +5,9 @@ on:
     branches: [main]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
@@ -28,21 +15,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H "${{ secrets.SERVER_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
 
-      # Pull .env.production from the server so the CI build bakes in the same
-      # NEXT_PUBLIC_* values as a build run directly on the server would.
-      - name: Fetch .env.production from server
-        run: |
-          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/var/www/vhosts/zipsy.co.uk/httpdocs/.env.production \
-            .env.production
-          test -s .env.production || { echo "ERROR: .env.production is empty or missing" >&2; exit 1; }
-
-      # Build happens here on GitHub's runner (7GB RAM) — not on your server
-      - name: Build
-        run: yarn build
-
-      # Pull latest code + install deps while server is still running (no downtime)
-      - name: Update server code
+      - name: Deploy
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} bash -lc "'
             set -e
@@ -51,35 +24,6 @@ jobs:
             cd /var/www/vhosts/zipsy.co.uk/httpdocs
             git pull origin main
             yarn install --frozen-lockfile
-          '"
-
-      # Transfer the built .next folder to a staging location (server still running)
-      - name: Transfer build artifacts
-        run: |
-          rsync -az --delete \
-            -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa" \
-            .next/ \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/var/www/vhosts/zipsy.co.uk/httpdocs/.next_new/
-
-      # Only this step causes downtime (~5 seconds)
-      - name: Swap build and restart
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} bash -lc "'
-            set -e
-            export NVM_DIR=\"\$HOME/.nvm\"
-            [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"
-            cd /var/www/vhosts/zipsy.co.uk/httpdocs
-            if [ ! -d .next_new ] || [ ! -f .next_new/BUILD_ID ]; then
-              echo \"ERROR: .next_new is missing or incomplete — aborting swap\" >&2
-              exit 1
-            fi
-            pm2 stop \"6ammart-web-next-js-dev\" || true
-            rm -rf .next_old
-            mv .next .next_old || true
-            rm -rf .next
-            mv .next_new .next
+            NODE_OPTIONS=\"--max-old-space-size=1536\" yarn build
             mkdir -p tmp && touch tmp/restart.txt
-            pm2 start \"6ammart-web-next-js-dev\" || pm2 start server.js --name \"6ammart-web-next-js-dev\"
-            pm2 save
-            rm -rf .next_old
           '"
