@@ -37,15 +37,31 @@ export const getMessagingObject = async () => {
   }
 };
 
+// Register (or reuse) the firebase messaging service worker and wait until it
+// is active. getToken otherwise tries to subscribe before the worker has
+// activated, which fails with "no active Service Worker".
+const getServiceWorkerRegistration = async () => {
+  if (typeof navigator === "undefined" || !("serviceWorker" in navigator)) {
+    return undefined;
+  }
+  const registration = await navigator.serviceWorker.register(
+    "/firebase-messaging-sw.js"
+  );
+  await navigator.serviceWorker.ready;
+  return registration;
+};
+
 // fetchToken function
 export const fetchToken = async (setTokenFound, setFcmToken) => {
   try {
     const messaging = await getMessagingObject();
     if (!messaging) return;
 
+    const serviceWorkerRegistration = await getServiceWorkerRegistration();
+
     const currentToken = await getToken(messaging, {
-      vapidKey:
-        "",
+      vapidKey: process.env.NEXT_PUBLIC_FCM_VAPID_KEY || "",
+      serviceWorkerRegistration,
     });
 
     if (currentToken) {

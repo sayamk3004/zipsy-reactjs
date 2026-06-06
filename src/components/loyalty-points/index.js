@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import PaidIcon from "@mui/icons-material/Paid";
+import CurrencyPoundIcon from "@mui/icons-material/CurrencyPound";
 import {
 	Button,
 	Grid,
@@ -117,7 +117,7 @@ const LoyaltyPoints = (props) => {
 							<Stack alignItems="center">
 								<Button
 									variant="contained"
-									startIcon={<PaidIcon />}
+									startIcon={<CurrencyPoundIcon />}
 									// style={{ color: textColor }}
 
 									sx={{

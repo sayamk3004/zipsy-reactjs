@@ -10,7 +10,6 @@ import { createTheme } from "theme";
 import CssBaseline from "@mui/material/CssBaseline";
 import { RTL } from "components/rtl";
 import { Toaster } from "react-hot-toast";
-import { getServerSideProps } from "./index";
 import { SettingsConsumer, SettingsProvider } from "contexts/settings-context";
 import "../src/language/i18n";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -26,7 +25,7 @@ Router.events.on("routeChangeStart", nProgress.start);
 Router.events.on("routeChangeError", nProgress.done);
 Router.events.on("routeChangeComplete", nProgress.done);
 
-export const currentVersion = process.env.NEXT_PUBLIC_SITE_VERSION;
+const currentVersion = process.env.NEXT_PUBLIC_SITE_VERSION;
 const clientSideEmotionCache = createEmotionCache();
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -92,4 +91,3 @@ function MyApp(props) {
 }
 
 export default MyApp;
-export { getServerSideProps };

@@ -13,7 +13,6 @@ import { useState } from "react";
 import { getModuleId } from "helper-functions/getModuleId";
 import Link from "next/link";
 import { CustomBoxFullWidth } from "styled-components/CustomStyles.style";
-import { textWithEllipsis } from "styled-components/TextWithEllipsis";
 import NextImage from "components/NextImage";
 import useTextEllipsis from "api-manage/hooks/custom-hooks/useTextEllipsis";
 
@@ -38,7 +37,6 @@ export const Card = styled(Box)(({ theme }) => ({
 const FeaturedItemCard = ({ image, title, id, onlyshimmer }) => {
   const [hover, setHover] = useState(false);
   const { ref: textRef, isEllipsed } = useTextEllipsis(title);
-  const classes = textWithEllipsis();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isExtraSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
@@ -72,6 +70,7 @@ const FeaturedItemCard = ({ image, title, id, onlyshimmer }) => {
           border: (theme) =>
             `1.5px solid ${alpha(theme.palette.neutral[400], 0.2)}`,
           borderRadius: "10px",
+          overflow: "hidden",
           "&:hover": {
             boxShadow: "0px 10px 20px 0px rgba(88, 110, 125, 0.10)",
             border: (theme) => `.5px solid ${theme.palette.primary.main}`,
@@ -88,7 +87,9 @@ const FeaturedItemCard = ({ image, title, id, onlyshimmer }) => {
         <Stack
           sx={{
             position: "relative",
-            height: { xs: "95px", md: "110px" },
+            // flexible so a 2-line title can't push content outside the card
+            flex: "1 1 auto",
+            minHeight: 0,
             width: "100%",
             img: {
               width: "100%",
@@ -139,16 +140,19 @@ const FeaturedItemCard = ({ image, title, id, onlyshimmer }) => {
               ref={textRef}
               component="h4"
               textAlign="center"
-              className={classes.singleLineEllipsis}
               sx={{
-                // Force the single-line ellipsis CSS here to be sure
+                // Wrap at word boundaries, clip to 2 lines, NO ellipsis.
+                // Words that don't fit drop to a hidden line instead of "...".
                 display: "block",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
                 width: "100%",
+                whiteSpace: "normal",
+                wordBreak: "normal",
+                overflowWrap: "normal",
+                overflow: "hidden",
+                textOverflow: "clip",
+                lineHeight: 1.2,
+                maxHeight: "2.4em",
               }}
-              maxHeight="20px"
               color={hover ? "primary.main" : "text.primary"}
             >
               {onlyshimmer ? (
