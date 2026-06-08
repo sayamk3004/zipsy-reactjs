@@ -294,7 +294,11 @@ const OtherModulePayment = (props) => {
               (failed
                 ? customerData?.data?.wallet_balance > payableAmount
                 : customerData?.data?.wallet_balance > 0) &&
-              configData?.partial_payment_status === 1 && (
+              // Show the wallet option when partial payment is enabled, OR when
+              // the balance can cover the full bill (full wallet payment) even
+              // if partial payment is turned off in admin config.
+              (configData?.partial_payment_status === 1 ||
+                customerData?.data?.wallet_balance >= payableAmount) && (
                 <Box sx={{ flex: "1 1 calc(50% - 5px)" }}>
                   <PartialPayment
                     remainingBalance={
