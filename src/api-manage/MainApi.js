@@ -25,7 +25,9 @@ MainApi.interceptors.request.use(function (config) {
   if (moduleid) config.headers.moduleId = moduleid;
   if (token) config.headers.authorization = `Bearer ${token}`;
   if (language) config.headers["X-localization"] = language;
-  if (hostname) config.headers["origin"] = hostname;
+  // NOTE: `Origin` is a browser-forbidden header — JS cannot set it, the
+  // browser strips it and sends the real origin. Setting it here was a no-op
+  // and could confuse HTTPS-inspecting proxies, so it is intentionally removed.
   config.headers["X-software-id"] = software_id;
   config.headers["Accept"] = 'application/json'
   config.headers["ngrok-skip-browser-warning"] = true;
