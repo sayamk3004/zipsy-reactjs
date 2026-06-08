@@ -107,7 +107,7 @@ const Grocery = (props) => {
         <CustomContainer>
           <PopularItemsNearby
             title="Most Popular Items"
-            subTitle="These are the most popular items in your area near your location"
+            subTitle="These are the most popular items on sale today"
           />
         </CustomContainer>
       </Grid>

@@ -71,8 +71,8 @@ const ReferralCode = (props) => {
               >
                 {getAmountWithSign(configData?.ref_earning_exchange_rate)}
               </Typography>
-              <Typography component="span">
-                {t("for every referral!")}
+            <Typography component="span">
+                {t("for every successful referral.")}
               </Typography>
             </Typography>
           </CustomStackFullWidth>

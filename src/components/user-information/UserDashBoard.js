@@ -34,7 +34,7 @@ const UserDashBoard = ({ data, configData, isLoading }) => {
         <ProfileStatistics
           isLoading={isLoading}
           value={getAmountWithSign(data?.wallet_balance)}
-          title="Amount in Wallet"
+          title="Wallet Balance"
           image={wallet.src}
           pathname="wallet"
           storage={data?.storage}

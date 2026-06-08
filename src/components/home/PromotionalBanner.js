@@ -50,7 +50,7 @@ const PromotionalBanner = ({ bannerData }) => {
     img: promotionalBanner,
     offerType: "Summer offer",
     header: "Up To 50% Off All Product.",
-    subHeader: "These are the most popular items in your area",
+    subHeader: "These are the most popular items on sale today",
   };
 
   return (

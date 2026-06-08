@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(chmod +x /Applications/XAMPP/xamppfiles/htdocs/zipsy-reactjs/deploy.sh)"
+      "Bash(chmod +x /Applications/XAMPP/xamppfiles/htdocs/zipsy-reactjs/deploy.sh)",
+      "Bash(git commit -m ' *)",
+      "Bash(git -C /Applications/XAMPP/xamppfiles/htdocs/zipsy-reactjs status)",
+      "Bash(git -C /Applications/XAMPP/xamppfiles/htdocs/zipsy-reactjs diff .github/workflows/deploy.yml)",
+      "Bash(git -C /Applications/XAMPP/xamppfiles/htdocs/zipsy-reactjs log --oneline -5)",
+      "Bash(git -C /Applications/XAMPP/xamppfiles/htdocs/zipsy-reactjs add .github/workflows/deploy.yml)",
+      "Bash(git -C /Applications/XAMPP/xamppfiles/htdocs/zipsy-reactjs commit -m ' *)",
+      "Bash(git -C /Applications/XAMPP/xamppfiles/htdocs/zipsy-reactjs push origin main)"
     ]
   }
 }
