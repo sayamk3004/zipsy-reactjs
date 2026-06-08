@@ -433,7 +433,7 @@ export const spain = {
   Suggestions: "اقتراحات",
   OFF: "إيقاف",
   "Days since Joining": "عدد الأيام منذ الانضمام",
-  "Amount in Wallet": "المبلغ في المحفظة",
+  "Wallet Balance": "Saldo de la billetera",
   Coupons: "كوبونات",
   Wallets: "محافظ",
   "Your Address": "عنوانك",

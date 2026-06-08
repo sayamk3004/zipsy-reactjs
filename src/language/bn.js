@@ -432,7 +432,7 @@ export const bengali = {
   Suggestions: "اقتراحات",
   OFF: "إيقاف",
   "Days since Joining": "عدد الأيام منذ الانضمام",
-  "Amount in Wallet": "المبلغ في المحفظة",
+  "Wallet Balance": "ওয়ালেট ব্যালেন্স",
   Coupons: "كوبونات",
   Wallets: "محافظ",
   "Your Address": "عنوانك",

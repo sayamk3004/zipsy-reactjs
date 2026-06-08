@@ -87,9 +87,10 @@ const FeaturedItemCard = ({ image, title, id, onlyshimmer }) => {
         <Stack
           sx={{
             position: "relative",
-            // flexible so a 2-line title can't push content outside the card
-            flex: "1 1 auto",
-            minHeight: 0,
+            // fixed height so every card's image is the same size regardless
+            // of how many lines the title wraps to
+            flex: "0 0 auto",
+            height: { xs: "80px", md: "100px" },
             width: "100%",
             img: {
               width: "100%",
@@ -130,9 +131,14 @@ const FeaturedItemCard = ({ image, title, id, onlyshimmer }) => {
             sx={{
               px: "10px",
               width: "100%",
-              // Ensu"100%",
               // Ensure wrapper in flex can shrink and give a constrained width
               minWidth: 0,
+              // reserve room for 2 lines so 1- and 2-line titles align
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flex: "1 1 auto",
+              minHeight: 0,
             }}
           >
             <Typography

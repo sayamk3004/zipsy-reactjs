@@ -131,7 +131,7 @@ const Wallet = (props) => {
               </Stack>
             )}
             <WalletBoxComponent
-              title={t("Total Balance")}
+              title={t("Wallet Balance")}
               balance={userData && userData?.wallet_balance}
               image={wallet}
               userDataLoading={userDataLoading}
