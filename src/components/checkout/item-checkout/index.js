@@ -58,6 +58,7 @@ import { CouponTitle } from "../CheckOut.style";
 import DeliveryManTip from "../DeliveryManTip";
 import SinglePrescriptionUpload from "../Prescription/SinglePrescriptionUpload";
 import AddPaymentMethod from "./AddPaymentMethod";
+import { DeliveryCaption } from "../CheckOut.style";
 import CheckoutStepper from "./CheckoutStepper";
 import Cutlery from "./Cutlery";
 import DeliveryDetails from "./DeliveryDetails";
@@ -1074,6 +1075,30 @@ const ItemCheckout = (props) => {
 									changeAmount={changeAmount}
 									setChangeAmount={setChangeAmount}
 								/>
+							)}
+
+							{/* Wallet funds option surfaced directly on the checkout page so users
+							    don't have to open the payment popup to find it. */}
+							{configData?.customer_wallet_status === 1 &&
+								token &&
+								customerData?.data?.wallet_balance > 0 &&
+								(configData?.partial_payment_status === 1 ||
+									customerData?.data?.wallet_balance >= payableAmount) && (
+								<Stack spacing={1}>
+									<DeliveryCaption>{t("Use Wallet Funds")}</DeliveryCaption>
+									<PartialPayment
+										remainingBalance={
+											customerData?.data?.wallet_balance - payableAmount
+										}
+										handlePartialPayment={handlePartialPayment}
+										usePartialPayment={usePartialPayment}
+										walletBalance={customerData?.data?.wallet_balance}
+										paymentMethod={paymentMethod}
+										switchToWallet={switchToWallet}
+										removePartialPayment={removePartialPayment}
+										payableAmount={payableAmount}
+									/>
+								</Stack>
 							)}
 
 							<DeliveryDetails
