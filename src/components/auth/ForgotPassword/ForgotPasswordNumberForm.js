@@ -148,7 +148,7 @@ const handleClick=()=>{
   };
 
 const text1=t("Please enter the registered")
-  const text2=t("where you want to sent your password recovery OTP.")
+  const text2=t("where you want to send your password recovery OTP.")
   return (
     <CustomStackFullWidth sx={{maxWidth:"330px"}}>
       {hasVerificationMethod ? (<>

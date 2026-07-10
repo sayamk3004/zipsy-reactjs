@@ -36,7 +36,7 @@ const LastOrderReview = ({
         fontWeight="400"
         color={theme.palette.neutral[600]}
       >
-        {t("Share us your valuable feedbacks")}
+        {t("Share your feedbacks")}
       </Typography>
       <CustomStackFullWidth justifyContent="center" alignItems="center">
         <ProductMoreView

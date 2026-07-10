@@ -81,22 +81,15 @@ const PlaceOrder = (props) => {
 					label={
 						<CustomTypography fontSize="12px">
 							{t(
-								`I agree that placing the order places me under`
+								`By placing this order, I agree with Zipsy's`
 							)}{" "}
 							<Link
 								href="/terms-and-conditions"
 								style={{ color: primaryColor }}
 							>
-								{t("Terms and Conditions")}
-							</Link>{" "}
-							{t("&")}
-							<Link
-								href="/privacy-policy"
-								style={{ color: primaryColor }}
-							>
-								{" "}
-								{t("Privacy Policy")}
+								{t("terms & conditions")}
 							</Link>
+							{t(".")}
 						</CustomTypography>
 					}
 				/>

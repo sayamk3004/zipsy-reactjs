@@ -101,7 +101,7 @@ const ChatWithAdmin = ({ automateMessageData, orderID }) => {
               disabled={value === "" && text === ""}
               onClick={handleSubmit}
             >
-              {t("Send Massage")}
+              {t("Send Message")}
             </PrimaryButton>
           </CustomStackFullWidth>
         </DialogContent>

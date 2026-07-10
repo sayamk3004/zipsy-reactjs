@@ -791,7 +791,6 @@ const ParcelOrderSummery = ({
               sx={{ cursor: "pointer" }}
               onClick={() => setOpenAdmin(true)}
             >
-              {t(`Massage to `)}
               <Typography
                 component="span"
                 fontSize={{ xs: "14px", md: "16px" }}
@@ -799,7 +798,7 @@ const ParcelOrderSummery = ({
                 color="primary"
                 sx={{ cursor: "pointer", textDecoration: "underline" }}
               >
-                {configData?.business_name}
+                {t("Message Customer Service")}
               </Typography>
             </Typography>
           </Stack>

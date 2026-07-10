@@ -724,6 +724,8 @@ export const arabic = {
 	"Select the Reason for Support": "حدد سبب الدعم",
 	"Type here to write a custom message": "اكتب هنا لكتابة رسالة مخصصة",
 	"Send Massage": "أرسل تدليك",
+	"Send Message": "إرسال رسالة",
+	"Message Customer Service": "مراسلة خدمة العملاء",
 	"Massage to ": "الرسالة هي ",
 	"Search a restaurant": "ابحث في مطعم",
 	"Order Placed": "تم تقديم الطلب",
@@ -991,6 +993,9 @@ export const arabic = {
 		"المطعم مغلق. حاول مرة أخرى في وقت لاحق.",
 	"I agree that placing the order places me under":
 		"أوافق على أن وضع الطلب يضعني تحت",
+	"By placing this order, I agree with Zipsy's":
+		"بتقديم هذا الطلب، أوافق على",
+	"terms & conditions": "الأحكام والشروط الخاصة بـ Zipsy",
 	"Terms and Conditions": "الأحكام والشروط",
 	"Subscribe to our weekly newsletter and be a part of our journey to self discovery and love.":
 		"اشترك في النشرة الإخبارية الأسبوعية الخاصة بنا وكن جزءًا من رحلتنا إلى اكتشاف الذات والحب.",
@@ -1223,7 +1228,7 @@ export const arabic = {
 	"Unit Price": "سعر الوحدة",
 	"How was your experience with your last order ?":
 		"كيف كانت تجربتك مع طلبك الأخير؟",
-	"Share us your valuable feedbacks": "شاركونا آرائكم القيمة",
+	"Share your feedbacks": "شاركونا آرائكم القيمة",
 	"Rate the item": "قيم العنصر",
 	Groceries: "بقالة",
 	"Make sure to remember your ": "تأكد من تذكر ",
@@ -1327,7 +1332,7 @@ export const arabic = {
 	"Request OTP": "طلب كلمة مرور لمرة واحدة",
 	"Forgot your password": "نسيت كلمة السر",
 	"Please enter the registered": "الرجاء إدخال المسجل",
-	"where you want to sent your password recovery OTP.": "حيث تريد إرسال OTP لاستعادة كلمة المرور الخاصة بك.",
+	"where you want to send your password recovery OTP.": "حيث تريد إرسال OTP لاستعادة كلمة المرور الخاصة بك.",
 	"Deliveryman Application": "تطبيق رجل التوصيل",
 	"User Info": "معلومات المستخدم",
 	"Identity Info": "معلوما الهوية",
